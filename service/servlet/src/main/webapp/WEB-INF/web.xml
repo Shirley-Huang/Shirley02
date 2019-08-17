@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+  <display-name>Archetype Created Web Application</display-name>
+
+  <!--  在spring框架中时如何解决从页面传来端编码问题的呢？
+      Spring框架提供CharacterEncodingFilter字符集过滤器，该过滤器是针对每次浏览器请求进行过滤的，添加了其父类没有的处理字符编码功能
+      encoding是编码格式、forceEncoding设置是否理会request.getCharacterEncoding()方法，设置为true则强制覆盖之前的编码格式
+  -->
+  <filter>
+    <filter-name>characterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>characterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!--  配置监听器，ContextLoaderListener的作用是启动web容器时，自动装配ApplicationContext的配置信息，因为它实现 ServletContextListener接口
+        在web.xml中配置这个监听器，启动容器时，会默认执行它实现的方法
+        在ContextLoaderListener中关联了contextLoader这个类，所以整个加载配置过程由ContextLoader来完成
+        ContextLoader创建的是XmlWebApplicationContext这样的类，它实现的接口是WebApplicationContext->
+        ConfigurableWebApplicationContext->ApplicationContext->BeanFactory  这样依赖spring中的所有bean都由这个类来创建
+        IUploaddatafileManager uploadmanager = （IUploaddatafileManager）ContextLoaderListener.getCurrentWebApplicationContext()
+        .getBean("uploadManager");
+  -->
+  <!--  <listener>-->
+  <!--    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+  <!--  </listener>-->
+
+  <!-- 如果web.xml 中不写任何参数配置信息，默认路径是/WEB-INF/applicationContext.xml
+       在WEB-INF目录下创建的xml文件名称必须是applicationContext.xml
+       如果是要自定义文件名可以在web.xml 里加入contextConfigLocation这个context参数
+      在ContextLoaderListener中关联来ContextLoader这个类，所以整个加载配置过程由ContextLoader来完成
+  -->
+  <!--  <context-param>-->
+  <!--    <param-name>contextConfigLocation</param-name>-->
+  <!--    <param-value>classpath:spring/applicationContext.xml</param-value>-->
+  <!--  </context-param>-->
+
+  <!--  分发器-->
+
+  <!--  <servlet>-->
+  <!--    <servlet-name>DispaterServlet</servlet-name>-->
+  <!--    <servlet-class>org.springframework.web.servlet.TestRequestServlet</servlet-class>-->
+  <!--    <init-param>-->
+  <!--      <param-name>contextConfigLocation</param-name>-->
+  <!--      <param-value>classpath:spring/dispatches-servlet.xml</param-value>-->
+  <!--    </init-param>-->
+  <!--    <load-on-startup>1</load-on-startup> &lt;!&ndash;启动顺序，让这个servlet容器随spring容器一起启动 &ndash;&gt;-->
+  <!--  </servlet>-->
+
+  <!--  <servlet-mapping>-->
+  <!--    <servlet-name>DispaterServlet</servlet-name>-->
+  <!--    <url-pattern>/</url-pattern> &lt;!&ndash;拦截URL中带 "/" 的请求 &ndash;&gt;-->
+  <!--  </servlet-mapping>-->
+
+
+
+
+
+  <!--jsp + serlvet 请求方式-->
+
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.dandan.servlet.LoginServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>TestRequestServlet</servlet-name>
+    <servlet-class>com.dandan.servlet.TestRequestServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>TestRequestServlet</servlet-name>
+    <url-pattern>*.asp</url-pattern>
+  </servlet-mapping>
+
+
+
+
+  <welcome-file-list><!--指定欢迎页面-->
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+</web-app>

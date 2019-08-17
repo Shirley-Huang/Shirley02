@@ -1,0 +1,6 @@
+PO(Persistant Object -持久对象) : 与数据库中的表映射的Java对象
+VO(Value Object -值对象) : 用于业务层之间的数据传递，是抽象出的业务对象；Service层----VO---> 前端
+TO(Transfer Object -数据传输对象) ：用于应用程序不同关系之间传输的对象 ； cbs项目----TO---> ops
+BO(Business Object -业务对象) ：
+POJO(Plain Ordinary Java Object -简单无规则Java对象):
+DAO（Data Access Object -数据访问对象）：
